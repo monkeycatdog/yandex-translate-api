@@ -1,5 +1,5 @@
 {
-  "name": "yandex-translate-api",
+  "name": "yandex-api-translate",
   "version": "0.0.1",
   "description": "Simple yandex translate module",
   "main": "index.js",
@@ -16,8 +16,8 @@
     "url": "https://github.com/ruSl0n/yandex-translate-api"
   },
   "author": "Ruslan Bakirov",
-  "license": "ISC",
-    "dependencies": {
+  "license": "MIT",
+  "dependencies": {
     "request": "^2.81.0"
   }
 }

@@ -18,3 +18,9 @@ app.determination('Hello world', (data)=>{
 });
 
 ```
+
+License
+
+MIT.
+
+Yandex.Translate terms of service: http://legal.yandex.com/translate_api/
