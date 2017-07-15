@@ -1,14 +1,23 @@
 {
-  "name": "yandex-translate",
+  "name": "yandex-translate-api",
   "version": "0.0.1",
-  "description": "yandex-translate-api",
+  "description": "Simple yandex translate module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "translate",
+    "yandex",
+    "language"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ruSl0n/yandex-translate-api"
+  },
   "author": "Ruslan Bakirov",
   "license": "ISC",
-  "dependencies": {
+    "dependencies": {
     "request": "^2.81.0"
   }
 }

@@ -14,16 +14,22 @@ class YT {
         /** @private */
         this.__api_key = api_key;
         this.__link = 'https://translate.yandex.net/api/v1.5/tr.json/';
-        this.get_lang_list = this.get_lang_list.bind(this);
+        this.getLangList = this.getLangList.bind(this);
+        this.determination = this.determination.bind(this);
+        this.translate = this.translate.bind(this);
+
         this.langs = {};
     }
+
     /**
      * Осуществляет запрос на получение списка поддерживаемых языков 
      * @param {string} ui - код языка
      * @this {YT}
+     * @param {function} callback - функция обратного вызова, получает в аргумнеты результат
      * @return {object} Объект со списком поддерживаемых язков
      */
-    get_lang_list(ui='en') {
+
+    getLangList(ui = 'en', callback) {
         var self = this;
         if (!self.langs[ui]) {
             request.post({
@@ -37,25 +43,27 @@ class YT {
                 body = JSON.parse(body);
                 self.langs[ui] = body.langs;
 
+                if (callback) callback(self.langs[ui]);
+
                 return self.langs[ui];
             });
         } else {
+            if (callback) callback(self.langs[ui]);
             return this.langs[ui];
         }
     }
-    // TODO - добавить параметры возможных языков
-    // Добавить колбэк функцию 
+    
+
     /**
      * Осущестляет опредление введеного языка
      * @param {string} text - текс запроса
      * @this {YT}
+     * @param {function} callback - функция обратного вызова, получает в аргумнеты результат
      * @return {object} Объект с кодом ответа и определенным языком
      */
-    determination(text) {
+    determination(text, callback) {
         var self = this;
         if (typeof text !== 'string') throw new Error('Text is not a string');
-        // text = querystring.stringify({text: text});
-        // text = text.replace('text=','');
 
         request.post({
             url: `${self.__link}detect`,
@@ -66,9 +74,13 @@ class YT {
         }, (error, response, body) => {
             if (error) return new Error('Error in request: ', error);
             body = JSON.parse(body);
-            return body
+
+            if (callback) callback(body);
+
+            return body;
         });
     }
+
 
     // TODO увеличить гибкость параметров
     /**
@@ -76,10 +88,15 @@ class YT {
      * @param {string} text - текст необходимый перевести
      * @param {string} toLang - язык в который нужно перевести (en,ru)
      * @param {string} format - формат введенного текст (plain/html)
+     * @param {function} callback - функция обратного вызова, получает в аргумнеты результат
+     * @return {object} - объект с результатом 
      */
-    translate(text, toLang, format='plain') {
+
+
+    translate(text, toLang, format, callback) {
         var self = this;
         if (typeof text !== 'string') throw new Error('Text is not a string');
+        if (!toLang) throw new Error('No selected lang');
 
         request.post({
             url: `${self.__link}translate`,
@@ -92,7 +109,10 @@ class YT {
         }, (error, response, body) => {
             if (error) return new Error('Error in request: ', error);
             body = JSON.parse(body);
-            return body.text[0]
+
+            if (callback) callback(body);
+
+            return body;
         });
     }
 }
